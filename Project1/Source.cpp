@@ -1,9 +1,9 @@
 //
 //  main.cpp
-//  triangle
+//  colored_building_no_indices
 //
 //  Created by Nazirul Hasan on 26/8/23.
-//  modified by Badiuzzaman
+//  Modified by Badiuzzaman
 //
 
 #include <glad/glad.h>
@@ -31,22 +31,26 @@ float scale_Y = 1.0;
 
 const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
+"layout (location = 1) in vec3 aColor;\n"
+"out vec3 ourColor;\n"
 "uniform mat4 transform;\n"
 "void main()\n"
 "{\n"
 "   gl_Position = transform * vec4(aPos, 1.0);\n"
+"   ourColor = aColor;\n"
 "}\0";
+
 const char* fragmentShaderSource = "#version 330 core\n"
+"in vec3 ourColor;\n"
 "out vec4 FragColor;\n"
 "void main()\n"
 "{\n"
-"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+"   FragColor = vec4(ourColor, 1.0f);\n"
 "}\n\0";
 
 int main()
 {
-    // glfw: initialize and configure
-    // ------------------------------
+    // Initialize GLFW
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -56,9 +60,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    // glfw window creation
-    // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "CSE 4208: Assignment 1", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Simple Building", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -68,22 +70,18 @@ int main()
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    // glad: load all OpenGL function pointers
-    // ---------------------------------------
+    // Load GLAD
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
 
-
-    // build and compile our shader program
-    // ------------------------------------
-    // vertex shader
+    // Build and compile shader program
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
-    // check for shader compile errors
+
     int success;
     char infoLog[512];
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
@@ -92,23 +90,21 @@ int main()
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
-    // fragment shader
+
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
-    // check for shader compile errors
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
-    // link shaders
+
     unsigned int shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
-    // check for linking errors
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
@@ -117,115 +113,193 @@ int main()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
-
-    //triangle
+    // Define vertices with color data for each vertex
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f, // left
-         0.5f, -0.5f, 0.0f, // right
-         0.0f,  0.5f, 0.0f  // top
+        // main building
+         0.3f, -0.5f, 0.0f,  0.4f, 0.4f, 0.4f, // bottom right, red
+        -0.3f, -0.5f, 0.0f,  0.4f, 0.4f, 0.4f,  // bottom left, red
+         0.3f,  0.5f, 0.0f,  0.4f, 0.4f, 0.4f,  // top right, red
+        -0.3f,  0.5f, 0.0f,  0.4f, 0.4f, 0.4f,
+         // Second triangle (Blue)
+         // 0.3f,  0.5f, 0.0f,  0.137f, 0.612f, 0.506f,  // top right, blue
+         //-0.3f,  0.5f, 0.0f,  0.137f, 0.612f, 0.506f,  // top left, blue
+         //-0.3f, -0.5f, 0.0f,  0.137f, 0.612f, 0.506f   // bottom left, blue
+        //left bottom window
+
+        -0.1f,  -0.3f, 0.0f,  0.0f, 1.0f, 1.0f,
+        -0.1f,  -0.2f, 0.0f,  0.0f, 1.0f, 1.0f,
+        -0.2f,  -0.3f, 0.0f,  0.0f, 1.0f, 1.0f,
+        -0.2f,  -0.2f, 0.0f,  0.0f, 1.0f, 1.0f,
+
+        //right bottom window
+        0.2f,  -0.3f, 0.0f,  0.0f, 1.0f, 1.0f,
+        0.1f,  -0.3f, 0.0f,  0.0f, 1.0f, 1.0f,
+        0.2f,  -0.2f, 0.0f,  0.0f, 1.0f, 1.0f,
+        0.1f,  -0.2f, 0.0f,  0.0f, 1.0f, 1.0f,
+
+        //right top window
+        0.2f,  0.2f, 0.0f,  0.0f, 1.0f, 1.0f,
+        0.1f,  0.2f, 0.0f,  0.0f, 1.0f, 1.0f,
+        0.2f,  0.3f, 0.0f,  0.0f, 1.0f, 1.0f,
+        0.1f,  0.3f, 0.0f,  0.0f, 1.0f, 1.0f,
+
+        //left top window
+        -0.1f,  0.2f, 0.0f,  0.0f, 1.0f, 1.0f,
+        -0.2f,  0.2f, 0.0f,  0.0f, 1.0f, 1.0f,
+        -0.1f,  0.3f, 0.0f,  0.0f, 1.0f, 1.0f,
+        -0.2f,  0.3f, 0.0f,  0.0f, 1.0f, 1.0f,
+
+        //bottom bar
+        -0.45f,  -0.54f, 0.0f,  0.25f, 0.25f, 0.25f,
+        -0.45f,  -0.5f, 0.0f,  0.25f, 0.25f, 0.25f,
+        0.34f,  -0.54f, 0.0f,  0.25f, 0.25f, 0.25f,
+        0.34f,  -0.5f, 0.0f,   0.25f, 0.25f, 0.25f,
+
+        //top stair
+        0.1f,  0.5f, 0.0f,  0.21f, 0.21f, 0.21f,
+        0.1f,  0.6f, 0.0f,  0.21f, 0.21f, 0.21f,
+        0.2f,  0.5f, 0.0f,  1.0f, 0.612f, 0.506f,
+        0.2f,  0.6f, 0.0f,  1.0f, 0.612f, 0.506f,
+        
+        //top roof
+        0.075f,  0.6f, 0.0f,  1.0f, 0.612f, 0.506f,
+        0.225f,  0.6f, 0.0f,  1.0f, 0.612f, 0.506f,
+        0.15f,  0.65f, 0.0f,  1.0f, 0.612f, 0.506f,
+
+        //door
+        -0.06f,  -0.5f, 0.0f,  0.63f, 0.27f, 0.0f,
+        -0.06f,  -0.36f, 0.0f,  0.63f, 0.27f, 0.0f,
+        0.06f,  -0.5f, 0.0f,  0.63f, 0.27f, 0.0f,
+        0.06f,  -0.36f, 0.0f,  0.63f, 0.27f, 0.0f,
+
+        
+
+        //midline
+        -0.3f,  -0.025f, 0.0f,  0.21f, 0.21f, 0.21f,
+        -0.3f,  0.025f, 0.0f,  0.21f, 0.21f, 0.21f,
+        0.3f,  -0.025f, 0.0f,  0.0f, 0.5f, 0.5f,
+        0.3f,  0.025f, 0.0f,  0.0f, 0.5f, 0.5f,
+
+        //midline line
+        0.3f,  0.0f, 0.0f,  1.0f, 1.0f, 1.0f,
+        -0.3f,  0.0f, 0.0f,  1.0f, 1.0f, 1.0f,
+
+        //door triangle
+        -0.06f,  -0.36f, 0.0f,  1.0f, 1.0f, 1.0f,
+        0.06f,  -0.36f, 0.0f,  1.0f, 1.0f, 1.0f,
+        0.0f,  -0.4f, 0.0f,  0.63f, 0.27f, 0.0f,
+
+        //door line
+        0.0f,  -0.4f, 0.0f,  1.0f, 1.0f, 1.0f,
+        0.0f,  -0.5f, 0.0f,  1.0f, 1.0f, 1.0f,
+
+        // building back traingle
+        -0.3f,  0.5f, 0.0f,  0.4f, 0.4f, 0.4f,
+        -0.3f, 0.4f, 0.0f,  0.4f, 0.4f, 0.4f,  
+        -0.4f,  0.4f, 0.0f,  0.4f, 0.4f, 0.4f,
+        -0.3f,  -0.5f, 0.0f,  0.4f, 0.4f, 0.4f,
+        -0.4f,  -0.5f, 0.0f,  0.4f, 0.4f, 0.4f,
+
+        //building line
+        -0.3f,  0.5f, 0.0f,  0.0f, 0.0f, 0.0f,
+        -0.3f,  -0.5f, 0.0f,  0.0f, 0.0f, 0.0f,
+        
+
+        //left bottom window line v
+        -0.15f,  -0.3f, 0.0f,  0.0f, 0.0f, 0.0f,
+        -0.15f,  -0.2f, 0.0f,  0.0f, 0.0f, 0.0f,
+
+        //right bottom window line v
+       0.15f,  -0.3f, 0.0f,  0.0f, 0.0f, 0.0f,
+       0.15f,  -0.2f, 0.0f,  0.0f, 0.0f, 0.0f,
+
+       //right top window line v
+       0.15f,  0.2f, 0.0f,  0.0f, 0.0f, 0.0f,
+       0.15f,  0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+       //left top window line v
+       -0.15f,  0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+       -0.15f,  0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+        
+
+        
     };
 
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // Color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-
-    // uncomment this call to draw in wireframe polygons.
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-    // render loop
-    // -----------
+    // Render loop
     while (!glfwWindowShouldClose(window))
     {
-        // input
-        // -----
         processInput(window);
 
-        // render
-        // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // create transformations
-        /*glm::mat4 trans = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-        trans = glm::translate(trans, glm::vec3(translate_X, translate_Y, 0.0f));
-        trans = glm::rotate(trans, glm:: radians(rotateAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-        trans = glm::scale(trans,glm::vec3(scale_X, scale_Y, 1.0));*/
-        glm::mat4 translationMatrix;
-        glm::mat4 rotationMatrix;
-        glm::mat4 scaleMatrix;
-        glm::mat4 modelMatrix;
-        glm::mat4 identityMatrix = glm::mat4(1.0f);
-        translationMatrix = glm::translate(identityMatrix, glm::vec3(translate_X, translate_Y, 0.0f));
-        rotationMatrix = glm::rotate(identityMatrix, glm::radians(rotateAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-        scaleMatrix = glm::scale(identityMatrix, glm::vec3(scale_X, scale_Y, 1.0f));
-        modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
-        //modelMatrix = rotationMatrix * scaleMatrix;
+        glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(translate_X, translate_Y, 0.0f));
+        glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(rotateAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+        glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(scale_X, scale_Y, 1.0f));
+        glm::mat4 modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 
-        // get matrix's uniform location and set matrix
         glUseProgram(shaderProgram);
         unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
-        // draw our first triangle
-        glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        //glDrawArrays(GL_LINES, 0, 6);
-        //glDrawArrays(GL_LINE_STRIP, 0, 6);
-        //glDrawArrays(GL_LINE_LOOP, 0, 6);
-        //glDrawArrays(GL_TRIANGLES, 0, 6);
-        //glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
-        //glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        // glBindVertexArray(0); // no need to unbind it every time
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
+        glDrawArrays(GL_TRIANGLE_STRIP,4,4);
+        glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
+        glDrawArrays(GL_TRIANGLE_STRIP, 12, 4);
+        glDrawArrays(GL_TRIANGLE_STRIP, 16, 4);
+        glDrawArrays(GL_TRIANGLE_STRIP, 20, 4);
+        glDrawArrays(GL_TRIANGLE_STRIP, 24, 4);
+        glDrawArrays(GL_TRIANGLES,28,3);
+        glDrawArrays(GL_TRIANGLE_STRIP, 31, 4);
+        glDrawArrays(GL_TRIANGLE_STRIP, 35, 4);
+        glDrawArrays(GL_LINES, 39, 2);
+        glDrawArrays(GL_TRIANGLES, 41, 3);
+        glDrawArrays(GL_LINES, 44, 2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 46, 5);
+        glDrawArrays(GL_LINES, 51, 2);
+        glDrawArrays(GL_LINES, 53, 8);
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    // optional: de-allocate all resources once they've outlived their purpose:
-    // ------------------------------------------------------------------------
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(shaderProgram);
 
-    // glfw: terminate, clearing all previously allocated GLFW resources.
-    // ------------------------------------------------------------------
     glfwTerminate();
     return 0;
 }
 
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // make sure the viewport matches the new window dimensions; note that width and
-    // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
