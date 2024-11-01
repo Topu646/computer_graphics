@@ -26,26 +26,26 @@ const unsigned int SCR_HEIGHT = 600;
 float rotateAngle = 0.0;
 float translate_X = 0.0;
 float translate_Y = 0.0;
-float scale_X = 1.0;
-float scale_Y = 1.0;
+float scale_X = 1.3;
+float scale_Y = 1.3;
 
 const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
 "layout (location = 1) in vec3 aColor;\n"
-"out vec3 ourColor;\n"
+"out vec3 colorInfo;\n"
 "uniform mat4 transform;\n"
 "void main()\n"
 "{\n"
 "   gl_Position = transform * vec4(aPos, 1.0);\n"
-"   ourColor = aColor;\n"
+"   colorInfo = aColor;\n"
 "}\0";
 
 const char* fragmentShaderSource = "#version 330 core\n"
-"in vec3 ourColor;\n"
+"in vec3 colorInfo;\n"
 "out vec4 FragColor;\n"
 "void main()\n"
 "{\n"
-"   FragColor = vec4(ourColor, 1.0f);\n"
+"   FragColor = vec4(colorInfo, 1.0f);\n"
 "}\n\0";
 
 int main()
@@ -200,9 +200,7 @@ int main()
         -0.3f,  -0.5f, 0.0f,  0.4f, 0.4f, 0.4f,
         -0.4f,  -0.5f, 0.0f,  0.4f, 0.4f, 0.4f,
 
-        //building line
-        -0.3f,  0.5f, 0.0f,  0.0f, 0.0f, 0.0f,
-        -0.3f,  -0.5f, 0.0f,  0.0f, 0.0f, 0.0f,
+        
         
 
         //left bottom window line v
@@ -220,8 +218,20 @@ int main()
        //left top window line v
        -0.15f,  0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
        -0.15f,  0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
-        
 
+       //midline left
+       -0.3f,  -0.025f, 0.0f,  0.21f, 0.21f, 0.21f,
+       -0.3f,  0.025f, 0.0f,  0.21f, 0.21f, 0.21f,
+       -0.4f,  -0.05f, 0.0f,  0.0f, 0.5f, 0.5f,
+       -0.4f,  0.0f, 0.0f,  0.0f, 0.5f, 0.5f,
+        
+       //midline line left
+        -0.4f, -0.025f, 0.0f, 1.0f, 1.0f, 1.0f,
+       -0.3f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+
+       //building line
+        -0.3f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f,
+        -0.3f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f,
         
     };
 
@@ -278,8 +288,11 @@ int main()
         glDrawArrays(GL_TRIANGLES, 41, 3);
         glDrawArrays(GL_LINES, 44, 2);
         glDrawArrays(GL_TRIANGLE_STRIP, 46, 5);
-        glDrawArrays(GL_LINES, 51, 2);
-        glDrawArrays(GL_LINES, 53, 8);
+        
+        glDrawArrays(GL_LINES, 51, 8);
+        glDrawArrays(GL_TRIANGLE_STRIP, 59, 4);
+        glDrawArrays(GL_LINES, 63, 2);
+        glDrawArrays(GL_LINES, 65, 2);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
