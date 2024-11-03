@@ -239,23 +239,23 @@ int main()
         0.16f, 0.5f, 0.0f, 0.23f, 0.43f, 0.55f,
         0.16f, 0.56f, 0.0f, 0.23f, 0.43f, 0.55f,
 
-        //left bottom window sunset
+        //left bottom window
         
         -0.1f,  -0.2f, 0.0f,  0.0f, 0.28f, 0.53f,
         -0.15f, -0.15f, 0.0f, 0.0f, 0.28f, 0.53f,
         -0.2f,  -0.2f, 0.0f,  0.0f, 0.28f, 0.53f,
         
-        //right bottom window sunset
+        //right bottom window
         0.15f, -0.15f, 0.0f, 0.0f, 0.28f, 0.53f,
         0.2f,  -0.2f, 0.0f, 0.0f, 0.28f, 0.53f,
         0.1f,  -0.2f, 0.0f, 0.0f, 0.28f, 0.53f,
 
-        //right top window sunset
+        //right top window
         0.15f, 0.35f, 0.0f, 0.0f, 0.28f, 0.53f,
         0.2f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
         0.1f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
 
-        //left top window sunset
+        //left top window
         -0.15f, 0.35f, 0.0f, 0.0f, 0.28f, 0.53f,
         -0.1f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
         -0.2f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
