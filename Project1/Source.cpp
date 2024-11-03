@@ -116,14 +116,11 @@ int main()
     // Define vertices with color data for each vertex
     float vertices[] = {
         // main building
-         0.3f, -0.5f, 0.0f,  0.6f, 0.5f, 0.74f, // bottom right, red
-        -0.3f, -0.5f, 0.0f,  0.6f, 0.5f, 0.74f,  // bottom left, red
-         0.3f,  0.5f, 0.0f,  0.6f, 0.5f, 0.74f,  // top right, red
+         0.3f, -0.5f, 0.0f,  0.6f, 0.5f, 0.74f, 
+        -0.3f, -0.5f, 0.0f,  0.6f, 0.5f, 0.74f,  
+         0.3f,  0.5f, 0.0f,  0.6f, 0.5f, 0.74f,  
         -0.3f,  0.5f, 0.0f,  0.6f, 0.5f, 0.74f,
-         // Second triangle (Blue)
-         // 0.3f,  0.5f, 0.0f,  0.137f, 0.612f, 0.506f,  // top right, blue
-         //-0.3f,  0.5f, 0.0f,  0.137f, 0.612f, 0.506f,  // top left, blue
-         //-0.3f, -0.5f, 0.0f,  0.137f, 0.612f, 0.506f   // bottom left, blue
+         
         //left bottom window
 
         -0.1f,  -0.3f, 0.0f,  0.0f, 1.0f, 1.0f,
@@ -259,6 +256,48 @@ int main()
         -0.15f, 0.35f, 0.0f, 0.0f, 0.28f, 0.53f,
         -0.1f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
         -0.2f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
+
+        // main building outlines
+         0.3f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 
+         0.3f,  0.5f, 0.0f, 0.0f, 0.0f, 0.0f,  
+         0.3f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f,
+        -0.3f,  0.5f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+        //left bottom window outline v
+        -0.1f,  -0.3f, 0.0f,  0.0f, 0.0f, 0.0f,
+        -0.1f,  -0.2f, 0.0f,  0.0f, 0.0f, 0.0f,
+        -0.2f, -0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+        -0.2f, -0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+        -0.1f,  -0.3f, 0.0f,  0.0f, 0.0f, 0.0f,
+        -0.2f, -0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+        //right bottom window outline v
+       0.1f,  -0.3f, 0.0f,  0.0f, 0.0f, 0.0f,
+       0.1f,  -0.2f, 0.0f,  0.0f, 0.0f, 0.0f,
+       0.2f, -0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+       0.2f, -0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+       0.1f,  -0.3f, 0.0f,  0.0f, 0.0f, 0.0f,
+       0.2f, -0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+       //right top window outline v
+       0.1f,  0.2f, 0.0f,  0.0f, 0.0f, 0.0f,
+       0.1f,  0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+       0.2f, 0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+       0.2f, 0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+       0.1f, 0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+       0.2f, 0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+       //left top window outline v
+       -0.1f,  0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+       -0.1f,  0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+       -0.2f, 0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+       -0.2f, 0.3f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+       -0.1f,  0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+       -0.2f, 0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
     };
 
     unsigned int VBO, VAO;
@@ -321,6 +360,7 @@ int main()
         glDrawArrays(GL_LINES, 65, 2);
         glDrawArrays(GL_TRIANGLE_STRIP, 67, 4);
         glDrawArrays(GL_TRIANGLES, 71, 12);
+        glDrawArrays(GL_LINES, 83, 28);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
