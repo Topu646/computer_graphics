@@ -153,10 +153,10 @@ int main()
         0.34f,  -0.5f, 0.0f,   0.25f, 0.25f, 0.25f,
 
         //top stair
-        0.1f,  0.5f, 0.0f,  0.21f, 0.21f, 0.21f,
-        0.1f,  0.6f, 0.0f,  0.21f, 0.21f, 0.21f,
-        0.2f,  0.5f, 0.0f,  1.0f, 0.612f, 0.506f,
-        0.2f,  0.6f, 0.0f,  1.0f, 0.612f, 0.506f,
+        0.1f,  0.5f, 0.0f,  0.8f, 0.4f, 0.4f,
+        0.1f,  0.6f, 0.0f,  0.8f, 0.4f, 0.4f,
+        0.2f,  0.5f, 0.0f,  0.8f, 0.4f, 0.4f,
+        0.2f,  0.6f, 0.0f,  0.8f, 0.4f, 0.4f,
         
         //top roof
         0.075f,  0.6f, 0.0f,  0.23f, 0.43f, 0.55f,
@@ -238,24 +238,24 @@ int main()
 
         //left bottom window sunset
         
-        -0.1f,  -0.2f, 0.0f,  0.0f, 0.28f, 0.53f,
-        -0.15f, -0.15f, 0.0f, 0.0f, 0.28f, 0.53f,
-        -0.2f,  -0.2f, 0.0f,  0.0f, 0.28f, 0.53f,
+        -0.1f,  -0.2f, 0.0f, 0.0f, 0.4f, 0.73f,
+        -0.15f, -0.15f, 0.0f, 0.0f, 0.4f, 0.73f,
+        -0.2f,  -0.2f, 0.0f, 0.0f, 0.4f, 0.73f,
         
         //right bottom window sunset
-        0.15f, -0.15f, 0.0f, 0.0f, 0.28f, 0.53f,
-        0.2f,  -0.2f, 0.0f, 0.0f, 0.28f, 0.53f,
-        0.1f,  -0.2f, 0.0f, 0.0f, 0.28f, 0.53f,
+        0.15f, -0.15f, 0.0f, 0.0f, 0.4f, 0.73f,
+        0.2f,  -0.2f, 0.0f, 0.0f, 0.4f, 0.73f,
+        0.1f,  -0.2f, 0.0f, 0.0f, 0.4f, 0.73f,
 
         //right top window sunset
-        0.15f, 0.35f, 0.0f, 0.0f, 0.28f, 0.53f,
-        0.2f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
-        0.1f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
+        0.15f, 0.35f, 0.0f, 0.0f, 0.4f, 0.73f,
+        0.2f,  0.3f, 0.0f, 0.0f, 0.4f, 0.73f,
+        0.1f,  0.3f, 0.0f, 0.0f, 0.4f, 0.73f,
 
         //left top window sunset
-        -0.15f, 0.35f, 0.0f, 0.0f, 0.28f, 0.53f,
-        -0.1f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
-        -0.2f,  0.3f, 0.0f, 0.0f, 0.28f, 0.53f,
+        -0.15f, 0.35f, 0.0f, 0.0f, 0.4f, 0.73f,
+        -0.1f,  0.3f, 0.0f, 0.0f, 0.4f, 0.73f,
+        -0.2f,  0.3f, 0.0f, 0.0f, 0.4f, 0.73f,
 
         // main building outlines
          0.3f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 
@@ -298,6 +298,21 @@ int main()
 
        -0.1f,  0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
        -0.2f, 0.2f, 0.0f, 0.0f, 0.0f, 0.0f,
+
+    //chimney
+            
+     0.19f, 0.69f, 0.0f, 0.4f, 0.4f, 0.4f,    
+     0.22f, 0.69f, 0.0f, 0.4f, 0.4f, 0.4f,    
+     0.19f, 0.624f, 0.0f, 0.4f, 0.4f, 0.4f,    
+     0.22f, 0.65f, 0.0f, 0.4f, 0.4f, 0.4f,     
+     0.22f, 0.603f, 0.0f, 0.4f, 0.4f, 0.4f,     
+
+     //chimney top     
+     0.18f, 0.69f, 0.0f, 0.4f, 0.4f, 0.4f,    
+     0.23f, 0.69f, 0.0f, 0.4f, 0.4f, 0.4f,    
+     0.18f, 0.68f, 0.0f, 0.4f, 0.4f, 0.4f,    
+     0.23f, 0.68f, 0.0f, 0.4f, 0.4f, 0.4f,    
+   
     };
 
     unsigned int VBO, VAO;
@@ -361,6 +376,8 @@ int main()
         glDrawArrays(GL_TRIANGLE_STRIP, 67, 4);
         glDrawArrays(GL_TRIANGLES, 71, 12);
         glDrawArrays(GL_LINES, 83, 28);
+        glDrawArrays(GL_TRIANGLE_STRIP, 111, 5);
+        glDrawArrays(GL_TRIANGLE_STRIP, 116, 4);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -412,7 +429,7 @@ void processInput(GLFWwindow* window)
         scale_X += scalingspeed;
         scale_Y += scalingspeed;
     }
-    //rotate clockwise
+    
     if (glfwGetKey(window, 'S') == GLFW_PRESS)
     {
         scale_X -= scalingspeed;
