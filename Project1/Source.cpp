@@ -310,6 +310,46 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+    const float translationSpeed = 0.01f;
+    const float rotatespeed = 1.0f;
+    const float scalingspeed = 0.01f;
+
+    // Move right
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        translate_X += translationSpeed;
+
+    // Move left
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+        translate_X -= translationSpeed;
+
+    // Move up
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+        translate_Y += translationSpeed;
+
+    // Move down
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+        translate_Y -= translationSpeed;
+
+    //rotate anticlockwise
+    if (glfwGetKey(window, 'Q') == GLFW_PRESS)
+        rotateAngle += rotatespeed;
+
+    //rotate clockwise
+    if (glfwGetKey(window, 'E') == GLFW_PRESS)
+        rotateAngle -= rotatespeed;
+
+    if (glfwGetKey(window, 'W') == GLFW_PRESS)
+    {
+        scale_X += scalingspeed;
+        scale_Y += scalingspeed;
+    }
+    //rotate clockwise
+    if (glfwGetKey(window, 'S') == GLFW_PRESS)
+    {
+        scale_X -= scalingspeed;
+        scale_Y -= scalingspeed;
+    }
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
